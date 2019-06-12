@@ -1,0 +1,22 @@
+[
+{
+  "directory": "/mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/build",
+  "command": "/usr/bin/g++-7    -Wall -g   -std=c++11 -o CMakeFiles/ExtendedKF.dir/src/main.cpp.o -c /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/main.cpp",
+  "file": "/mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/main.cpp"
+},
+{
+  "directory": "/mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/build",
+  "command": "/usr/bin/g++-7    -Wall -g   -std=c++11 -o CMakeFiles/ExtendedKF.dir/src/tools.cpp.o -c /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/tools.cpp",
+  "file": "/mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/tools.cpp"
+},
+{
+  "directory": "/mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/build",
+  "command": "/usr/bin/g++-7    -Wall -g   -std=c++11 -o CMakeFiles/ExtendedKF.dir/src/FusionEKF.cpp.o -c /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/FusionEKF.cpp",
+  "file": "/mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/FusionEKF.cpp"
+},
+{
+  "directory": "/mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/build",
+  "command": "/usr/bin/g++-7    -Wall -g   -std=c++11 -o CMakeFiles/ExtendedKF.dir/src/kalman_filter.cpp.o -c /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/kalman_filter.cpp",
+  "file": "/mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/kalman_filter.cpp"
+}
+]
