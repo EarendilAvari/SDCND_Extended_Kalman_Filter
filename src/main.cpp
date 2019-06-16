@@ -9,6 +9,10 @@ using Eigen::MatrixXd;
 using Eigen::VectorXd;
 using std::string;
 using std::vector;
+using std::ifstream;
+using std::cout;
+using std::endl;
+using std::istringstream;
 
 // for convenience
 using json = nlohmann::json;
@@ -29,7 +33,7 @@ string hasData(string s) {
   return "";
 }
 
-int main() {
+int main_Future() {
   uWS::Hub h;
 
   // Create a Kalman Filter instance
@@ -115,10 +119,10 @@ int main() {
 
           VectorXd estimate(4);
 
-          double p_x = fusionEKF.ekf_.x_(0);
-          double p_y = fusionEKF.ekf_.x_(1);
-          double v1  = fusionEKF.ekf_.x_(2);
-          double v2 = fusionEKF.ekf_.x_(3);
+          double p_x = fusionEKF.ekf_.getX_n(0);
+          double p_y = fusionEKF.ekf_.getX_n(1);
+          double v1  = fusionEKF.ekf_.getX_n(2);
+          double v2 = fusionEKF.ekf_.getX_n(3);
 
           estimate(0) = p_x;
           estimate(1) = p_y;
@@ -169,4 +173,84 @@ int main() {
   }
   
   h.run();
+}
+
+int main() {
+  /**
+   * Set Measurements
+   */
+  vector<MeasurementPackage> measurement_pack_list;
+
+  // hardcoded input file with laser and radar measurements
+  string in_file_name = "debugDataFile.txt";
+  ifstream in_file(in_file_name.c_str(), ifstream::in);
+
+  if (!in_file.is_open()) {
+    cout << "Cannot open input file: " << in_file_name << endl;
+  }
+
+  string line;
+
+  // Set i to get only first 6 measurements
+
+  int i = 0;
+  while (getline(in_file, line) && (i<=6)) {
+
+    MeasurementPackage meas_package;
+
+    istringstream iss (line);
+
+    string sensor_type;
+    iss >> sensor_type; // Reads the first elemenf from the current line
+    int64_t timestamp;
+
+    if (sensor_type.compare("L") == 0) { // Laser measurement
+      meas_package.sensor_type_ = MeasurementPackage::LASER;
+      meas_package.raw_measurements_ = VectorXd(2);
+      float x;
+      float y;
+      iss >> x;
+      iss >> y;
+
+      meas_package.raw_measurements_ << x, y;
+
+      iss >> timestamp;
+      meas_package.timestamp_ = timestamp;
+      measurement_pack_list.push_back(meas_package);
+    }
+    else if (sensor_type.compare("R") == 0) {
+      meas_package.sensor_type_ = MeasurementPackage::RADAR;
+      meas_package.raw_measurements_ = VectorXd(3);
+      float rho;
+      float theta;
+      float rho_dot;
+      iss >> rho;
+      iss >> theta;
+      iss >> rho_dot;
+
+      meas_package.raw_measurements_ << rho, theta, rho_dot;
+    }
+
+    iss >> timestamp;
+    meas_package.timestamp_ = timestamp;
+    measurement_pack_list.push_back(meas_package);
+
+    i++;
+  }
+
+  // Create a FusionEKF instance
+
+  FusionEKF fusionEKF;
+
+  // Call the ProcessMeasurement() function for each measurement
+  size_t N = measurement_pack_list.size();
+
+  for (size_t k = 0; k < N; k++) {
+    fusionEKF.ProcessMeasurement(measurement_pack_list[k]);
+  }
+
+  if (in_file.is_open()) {
+    in_file.close();
+  }
+
 }

@@ -3,6 +3,9 @@
 
 #include "Eigen/Dense"
 
+using Eigen::MatrixXd;
+using Eigen::VectorXd;
+
 class KalmanFilter {
  public:
   /**
@@ -11,12 +14,7 @@ class KalmanFilter {
   KalmanFilter();
 
   /**
-   * Destructor
-   */
-  virtual ~KalmanFilter();
-
-  /**
-   * Init Initializes Kalman filter
+   * Constructor with given data
    * @param x_in Initial state
    * @param P_in Initial state covariance
    * @param F_in Transition matrix
@@ -24,8 +22,19 @@ class KalmanFilter {
    * @param R_in Measurement covariance matrix
    * @param Q_in Process covariance matrix
    */
-  void Init(Eigen::VectorXd &x_in, Eigen::MatrixXd &P_in, Eigen::MatrixXd &F_in,
-            Eigen::MatrixXd &H_in, Eigen::MatrixXd &R_in, Eigen::MatrixXd &Q_in);
+  KalmanFilter(int X_length, MatrixXd P_in, MatrixXd F_in, MatrixXd Q_in, 
+               MatrixXd H_laser_in, MatrixXd R_laser_in, 
+               MatrixXd H_radar_in, MatrixXd R_radar_in);
+
+  /**
+   * Destructor
+   */
+  virtual ~KalmanFilter();
+
+  /**
+   * Function to initialize vector x
+   */
+  void InitX(VectorXd x_init);
 
   /**
    * Prediction Predicts the state and the state covariance
@@ -46,6 +55,31 @@ class KalmanFilter {
    */
   void UpdateEKF(const Eigen::VectorXd &z);
 
+  /**
+   * Gets the x vector to be printed or used in other calculations
+   */
+  
+  VectorXd getX();
+
+  /**
+   * Gets the n element of the x vector to be printed or used in other calculations
+   */
+
+  float getX_n(int n);
+
+  /**
+   * Gets the P matrix to be printed or used in other calculations
+   */
+  MatrixXd getP();
+
+  /**
+   * Prints all variables of Kalman Filter for debugging purposes
+   */
+
+  void printAllVariables();
+
+
+  private:
   // state vector
   Eigen::VectorXd x_;
 
@@ -58,11 +92,17 @@ class KalmanFilter {
   // process covariance matrix
   Eigen::MatrixXd Q_;
 
-  // measurement matrix
-  Eigen::MatrixXd H_;
+  // measurement covariance matrix for laser
+  Eigen::MatrixXd R_laser_;
 
-  // measurement covariance matrix
-  Eigen::MatrixXd R_;
+  // measurement covariance matrix for radar
+  Eigen::MatrixXd R_radar_;
+
+  // observation matrix for laser
+  Eigen::MatrixXd H_laser_;
+
+  // observation matrix for radar (jacobian)
+  Eigen::MatrixXd H_radar_;
 };
 
 #endif // KALMAN_FILTER_H_
