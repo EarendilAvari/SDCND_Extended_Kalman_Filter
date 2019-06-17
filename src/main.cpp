@@ -180,6 +180,11 @@ int main() {
    * Set Measurements
    */
   vector<MeasurementPackage> measurement_pack_list;
+  
+  // Vector to save estimation values to calculate RSME
+  vector<VectorXd> est_vector;
+  // Vector to save ground truth values to calculate RSME
+  vector<VectorXd> gt_vector;
 
   // hardcoded input file with laser and radar measurements
   string in_file_name = "debugDataFile.txt";
@@ -194,7 +199,7 @@ int main() {
   // Set i to get only first 6 measurements
 
   int i = 0;
-  while (getline(in_file, line) && (i<=6)) {
+  while (getline(in_file, line)) {
 
     MeasurementPackage meas_package;
 
@@ -236,20 +241,44 @@ int main() {
       measurement_pack_list.push_back(meas_package);
     }
 
+    VectorXd gt_values(4);
+    float gt_px;
+    float gt_py;
+    float gt_vx;
+    float gt_vy;
+
+    iss >> gt_px;
+    iss >> gt_py;
+    iss >> gt_vx;
+    iss >> gt_vy;
+
+    gt_values << gt_px, gt_py, gt_vx, gt_vy;
+
+    gt_vector.push_back(gt_values);
 
     i++;
   }
 
   // Create a FusionEKF instance
-
   FusionEKF fusionEKF;
 
   // Call the ProcessMeasurement() function for each measurement
   size_t N = measurement_pack_list.size();
 
+  VectorXd est_values(4);
   for (size_t k = 0; k < N; k++) {
-    fusionEKF.ProcessMeasurement(measurement_pack_list[k]);
+    est_values = fusionEKF.ProcessMeasurement(measurement_pack_list[k]);
+    est_vector.push_back(est_values);
   }
+
+  VectorXd filter_RMSE(4);
+  filter_RMSE = fusionEKF.CalculateRMSE(est_vector, gt_vector);
+
+  cout << endl << "The RMSE (Root mean squared value) of the filter with " << N << " measurements is: " << endl;
+  cout << "px: " << filter_RMSE[0] << endl;
+  cout << "py: " << filter_RMSE[1] << endl;
+  cout << "vx: " << filter_RMSE[2] << endl;
+  cout << "vy: " << filter_RMSE[3] << endl;
 
   if (in_file.is_open()) {
     in_file.close();

@@ -70,7 +70,7 @@ FusionEKF::FusionEKF() {
  */
 FusionEKF::~FusionEKF() {}
 
-void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
+VectorXd FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   /**
    * Initialization
    */
@@ -111,7 +111,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     ekf_.printAllVariables();
     **/
 
-    return;
+    return ekf_.getX();
   }
 
   /**
@@ -139,7 +139,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
    * Use noise_ax = 9 and noise_ay = 9 for your Q matrix.
    */
 
-  
   float noise_ax = 9;
   float noise_ay = 9;
 
@@ -151,16 +150,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
   ekf_.updateQ(updated_Q);
 
-  // x and P before the update (debugging print)
-  //cout << "x before the update: " << ekf_.getX() << endl;
-  //cout << "P before the update: " << ekf_.getP() << endl;
   ekf_.Predict();
-  //cout << "x after the update: " << ekf_.getX() << endl;
-  //cout << "P after the update: " << ekf_.getP() << endl;
-
-  /**
-   * Update
-   */
 
   /**
    * 
@@ -195,4 +185,51 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
 
   cout << "x_ = " << ekf_.getX() << endl << endl;
   cout << "P_ = " << ekf_.getP() << endl;
+
+  return ekf_.getX();
+}
+
+VectorXd FusionEKF::CalculateRMSE(const std::vector<Eigen::VectorXd> &estimations, 
+                                  const std::vector<Eigen::VectorXd> &ground_truth) {
+  
+  VectorXd RMSE(4);
+  RMSE << 0, 0, 0, 0;
+  
+  // Checks the validity of the inputs:
+  if(estimations.size() == 0) {
+    cout << "ERROR: Estimations vector has size 0" << endl;
+    return RMSE;
+  }
+  else if (ground_truth.size() == 0) {
+    cout << "ERROR: Ground truth vector has size 0" << endl;
+    return RMSE;
+  }
+  else if (estimations.size() != ground_truth.size()) {
+    cout << "ERROR: Estimation vector has different size than ground truth vector" << endl;
+    return RMSE;
+  }
+
+  // Accumulates the square differences between estimations and ground truth in a vector
+  VectorXd xt_diff2_sum(4);
+  xt_diff2_sum << 0,0,0,0;
+
+  for (int i=0; i < estimations.size(); i++) {
+    VectorXd xt_est = estimations[i];
+    VectorXd xt_true = ground_truth[i];
+
+    VectorXd xt_diff = xt_est - xt_true;
+    VectorXd xt_diff2 = xt_diff.array()*xt_diff.array();
+
+    xt_diff2_sum += xt_diff2;
+  }
+
+  // Calculates the mean using the sum of the square differences
+  float multiplier = (1/static_cast<float>(estimations.size()));
+  VectorXd xt_diff2_mean = multiplier*xt_diff2_sum.array();
+
+  // Calculates the squared root of the mean
+  RMSE = xt_diff2_mean.array().sqrt();
+
+  return RMSE;
+
 }

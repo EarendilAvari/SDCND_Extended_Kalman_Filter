@@ -24,7 +24,14 @@ class FusionEKF {
   /**
    * Run the whole flow of the Kalman Filter from here.
    */
-  void ProcessMeasurement(const MeasurementPackage &measurement_pack);
+  Eigen::VectorXd ProcessMeasurement(const MeasurementPackage &measurement_pack);
+
+  /*
+  * Calculates the root mean squared error between the estimations of the Kalman filter
+  * and the ground truth values.
+  */
+  Eigen::VectorXd CalculateRMSE(const std::vector<Eigen::VectorXd> &estimations, 
+                                const std::vector<Eigen::VectorXd> &ground_truth);
   
 
   /**
