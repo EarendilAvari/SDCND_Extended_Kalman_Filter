@@ -23,8 +23,7 @@ class KalmanFilter {
    * @param Q_in Process covariance matrix
    */
   KalmanFilter(int X_length, MatrixXd P_in, MatrixXd F_in, MatrixXd Q_in, 
-               MatrixXd H_laser_in, MatrixXd R_laser_in, 
-               MatrixXd H_radar_in, MatrixXd R_radar_in);
+               MatrixXd H_in, MatrixXd R_in);
 
   /**
    * Destructor
@@ -48,12 +47,6 @@ class KalmanFilter {
    * @param z The measurement at k+1
    */
   void Update(const Eigen::VectorXd &z);
-
-  /**
-   * Updates the state by using Extended Kalman Filter equations
-   * @param z The measurement at k+1
-   */
-  void UpdateEKF(const Eigen::VectorXd &z);
 
   /**
    * Gets the x vector to be printed or used in other calculations
@@ -85,11 +78,10 @@ class KalmanFilter {
   /**
    * Prints all variables of Kalman Filter for debugging purposes
    */
-
   void printAllVariables();
 
 
-  private:
+  protected:
   // state vector
   Eigen::VectorXd x_;
 
@@ -102,17 +94,11 @@ class KalmanFilter {
   // process covariance matrix
   Eigen::MatrixXd Q_;
 
-  // measurement covariance matrix for laser
-  Eigen::MatrixXd R_laser_;
+  // measurement covariance matrix
+  Eigen::MatrixXd R_;
 
-  // measurement covariance matrix for radar
-  Eigen::MatrixXd R_radar_;
-
-  // observation matrix for laser
-  Eigen::MatrixXd H_laser_;
-
-  // observation matrix for radar (jacobian)
-  Eigen::MatrixXd H_radar_;
+  // observation matrix
+  Eigen::MatrixXd H_;
 };
 
 #endif // KALMAN_FILTER_H_

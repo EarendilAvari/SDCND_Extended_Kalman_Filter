@@ -14,16 +14,13 @@ KalmanFilter::KalmanFilter() {}
 KalmanFilter::~KalmanFilter() {}
 
 KalmanFilter::KalmanFilter(int X_length, MatrixXd P_in, MatrixXd F_in, MatrixXd Q_in, 
-                           MatrixXd H_laser_in, MatrixXd R_laser_in, 
-                           MatrixXd H_radar_in, MatrixXd R_radar_in) {
+                           MatrixXd H_in, MatrixXd R_in) {
   x_ = VectorXd(X_length);
   P_ = P_in;
   F_ = F_in;
   Q_ = Q_in;
-  H_laser_ = H_laser_in;
-  R_laser_ = R_laser_in;
-  H_radar_ = H_radar_in;
-  R_radar_ = R_radar_in;
+  H_ = H_in;
+  R_ = R_in;
 }
 
 void KalmanFilter::InitX(VectorXd x_init) {
@@ -39,15 +36,17 @@ void KalmanFilter::Predict() {
 }
 
 void KalmanFilter::Update(const VectorXd &z) {
-  /**
-   * TODO: update the state by using Kalman Filter equations
-   */
-}
+  // It gets the position measurement predicted before and compares it agaist the real measurements from the sensor
+  VectorXd z_pred = H_*x_; // (2x4)x(4x1) = 2x1
+  VectorXd y = z - z_pred; // (2x1)
 
-void KalmanFilter::UpdateEKF(const VectorXd &z) {
-  /**
-   * TODO: update the state by using Extended Kalman Filter equations
-   */
+  // It calculates the Kalman gain (K matrix) using the state covariance matrix (P) and the observation matrix (H)
+  MatrixXd S = H_*P_*H_.transpose() + R_; // (2x4)x(4x4)x(4x2) + (2x2) = (2x2)
+  MatrixXd K = P_*H_.transpose()*S.inverse(); // (4x4)x(4x2)x(2x2) = (4x2)
+
+  // It updates the measurements of position and speed (x) with the difference between the predicted positions and real positions (y) and the 
+  // Kalman gain (K)
+  x_ = x_ + K*y; // (4x1) + (4x2)*(2x1) = (4x1)
 }
 
 VectorXd KalmanFilter::getX() {
@@ -75,10 +74,8 @@ void KalmanFilter::printAllVariables() {
   cout << "P (state covariance matrix): " << P_ << endl;
   cout << "F (state transition matrix): " << F_ << endl;
   cout << "Q (process covariance matrix): " << Q_ << endl;
-  cout << "R_laser (measurement covariance matrix for laser): " << R_laser_ << endl;
-  cout << "R_radar (measurement covariance matrix for radar): " << R_radar_ << endl;
-  cout << "H_laser (observation matrix for laser) " << H_laser_ << endl;
-  cout << "H_radar (observation matrix for radar) " << H_radar_ << endl;
+  cout << "R_laser (measurement covariance matrix for laser): " << R_ << endl;
+  cout << "H_laser (observation matrix for laser) " << H_ << endl;
   
 }
 

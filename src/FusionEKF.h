@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include "Eigen/Dense"
-#include "kalman_filter.h"
+#include "ExtendedKF_rl.h"
 #include "measurement_package.h"
 #include "tools.h"
 
@@ -25,16 +25,18 @@ class FusionEKF {
    * Run the whole flow of the Kalman Filter from here.
    */
   void ProcessMeasurement(const MeasurementPackage &measurement_pack);
-
-  /**
-   * Updates the P matrix of the Kalman Filter based on the time difference between the current and the last cycle
-   */
   
 
   /**
    * Kalman Filter update and prediction math lives in here.
    */
-  KalmanFilter ekf_;
+  ExtendedKF_rl ekf_;
+
+  /**
+   * Tools instance for helper methods
+   */
+
+  Tools hm_;
 
  private:
   // check whether the tracking toolbox was initialized or not (first measurement)

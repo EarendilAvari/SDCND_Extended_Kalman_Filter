@@ -61,7 +61,7 @@ FusionEKF::FusionEKF() {
   
 
   // Initial values of other matrices of Kalman Filter
-  ekf_ = KalmanFilter(4, P_initial, F_initial, Q_initial, H_laser_initial, 
+  ekf_ = ExtendedKF_rl(4, P_initial, F_initial, Q_initial, H_laser_initial, 
                       R_laser_initial, H_radar_initial, R_radar_initial);
 }
 
@@ -149,7 +149,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
                0, (pow(dt,3)/2)*noise_ay, 0, pow(dt,2)*noise_ay;
 
   ekf_.updateQ(updated_Q);
-  ekf_.printAllVariables();
 
   // x and P before the update (debugging print)
   //cout << "x before the update: " << ekf_.getX() << endl;
@@ -164,20 +163,38 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
    */
 
   /**
-   * TODO:
+   * 
    * - Use the sensor type to perform the update step.
    * - Update the state and covariance matrices.
    */
 
   if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
-    // TODO: Radar updates
+    // Radar updates
+    // Updates the H matrix for radar measurements
+    ekf_.UpdateH_radar(); 
+    
+    VectorXd z(3);
+    z << measurement_pack.raw_measurements_[0],
+         measurement_pack.raw_measurements_[1],
+         measurement_pack.raw_measurements_[2];
+
+    ekf_.UpdateEKF(z);
+    
 
   } else {
-    // TODO: Laser updates
+    // Laser updates
 
+    VectorXd z(2);
+    z << measurement_pack.raw_measurements_[0],
+         measurement_pack.raw_measurements_[1];
+    
+    ekf_.Update(z);
   }
 
   // print the output
+  ekf_.printAllVariables();
+  cout << endl << endl << endl;
+
   //cout << "x_ = " << ekf_.getX() << endl;
   //cout << "P_ = " << ekf_.getP() << endl;
 }
