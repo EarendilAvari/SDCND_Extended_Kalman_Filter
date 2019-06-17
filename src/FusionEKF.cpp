@@ -8,6 +8,7 @@ using Eigen::VectorXd;
 using std::cout;
 using std::endl;
 using std::vector;
+using std::pow;
 
 /**
  * Constructor.
@@ -59,11 +60,6 @@ FusionEKF::FusionEKF() {
                      0, 0, 0, 0;
   
 
-  /**
-   * TODO: Finish initializing the FusionEKF.
-   * TODO: Set the process and measurement noises
-   */
-
   // Initial values of other matrices of Kalman Filter
   ekf_ = KalmanFilter(4, P_initial, F_initial, Q_initial, H_laser_initial, 
                       R_laser_initial, H_radar_initial, R_radar_initial);
@@ -80,8 +76,8 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
    */
   if (!is_initialized_) {
     /**
-     * TODO: Initialize the state ekf_.x_ with the first measurement.
-     * TODO: Create the covariance matrix.
+     * Initialize the state ekf_.x_ with the first measurement.
+     * Create the covariance matrix.
      * You'll need to convert radar from polar to cartesian coordinates.
      */
 
@@ -108,10 +104,11 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     // done initializing, no need to predict or update
     is_initialized_ = true;
 
-    // Print Kalman Filter status:
-
+    
+    /** Print 
     cout << "Kalman Filter initialized with: " << endl;
     ekf_.printAllVariables();
+    **/
 
     return;
   }
@@ -121,13 +118,46 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
    */
 
   /**
-   * TODO: Update the state transition matrix F according to the new elapsed time.
+   * Update the state transition matrix F according to the new elapsed time.
    * Time is measured in seconds.
-   * TODO: Update the process noise covariance matrix.
+   */
+
+  float dt = (measurement_pack.timestamp_ - previous_timestamp_) / 1000000.0;
+  previous_timestamp_ = measurement_pack.timestamp_;
+
+  MatrixXd updated_F(4,4);
+  updated_F << 1, 0, dt, 0,
+               0, 1, 0, dt,
+               0, 0, 1, 0,
+               0, 0, 0, 1;
+
+  ekf_.updateF(updated_F);
+  
+  /**
+   * Update the process noise covariance matrix.
    * Use noise_ax = 9 and noise_ay = 9 for your Q matrix.
    */
 
+  
+  float noise_ax = 9;
+  float noise_ay = 9;
+
+  MatrixXd updated_Q(4,4);
+  updated_Q << (pow(dt,4)/4)*noise_ax, 0, (pow(dt,3)/2)*noise_ax, 0,
+               0, (pow(dt,4)/4)*noise_ay, 0, (pow(dt,3)/2)*noise_ay, 
+               (pow(dt,3)/2)*noise_ax, 0, pow(dt,2)*noise_ax, 0,
+               0, (pow(dt,3)/2)*noise_ay, 0, pow(dt,2)*noise_ay;
+
+  ekf_.updateQ(updated_Q);
+  ekf_.printAllVariables();
+
+  // x and P before the update (debugging print)
+  //cout << "x before the update: " << ekf_.getX() << endl;
+  //cout << "P before the update: " << ekf_.getP() << endl;
+
   ekf_.Predict();
+  //cout << "x after the update: " << ekf_.getX() << endl;
+  //cout << "P after the update: " << ekf_.getP() << endl;
 
   /**
    * Update
@@ -148,6 +178,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
   }
 
   // print the output
-  cout << "x_ = " << ekf_.getX() << endl;
-  cout << "P_ = " << ekf_.getP() << endl;
+  //cout << "x_ = " << ekf_.getX() << endl;
+  //cout << "P_ = " << ekf_.getP() << endl;
 }

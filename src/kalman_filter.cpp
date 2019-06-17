@@ -32,8 +32,10 @@ void KalmanFilter::InitX(VectorXd x_init) {
 
 void KalmanFilter::Predict() {
   /**
-   * TODO: predict the state
+   * predict the next state
    */
+   x_ = F_*x_;
+   P_ = F_*P_*F_.transpose() + Q_;
 }
 
 void KalmanFilter::Update(const VectorXd &z) {
@@ -58,6 +60,14 @@ float KalmanFilter::getX_n(int n){
 
 MatrixXd KalmanFilter::getP() {
   return P_;
+}
+
+void KalmanFilter::updateF(MatrixXd newF) {
+  F_ = newF;
+}
+
+void KalmanFilter::updateQ(MatrixXd newQ) {
+  Q_ = newQ;
 }
 
 void KalmanFilter::printAllVariables() {

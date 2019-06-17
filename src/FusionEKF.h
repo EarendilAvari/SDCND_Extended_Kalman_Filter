@@ -27,6 +27,11 @@ class FusionEKF {
   void ProcessMeasurement(const MeasurementPackage &measurement_pack);
 
   /**
+   * Updates the P matrix of the Kalman Filter based on the time difference between the current and the last cycle
+   */
+  
+
+  /**
    * Kalman Filter update and prediction math lives in here.
    */
   KalmanFilter ekf_;

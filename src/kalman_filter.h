@@ -73,6 +73,16 @@ class KalmanFilter {
   MatrixXd getP();
 
   /**
+   * Updates the F matrix
+   */
+  void updateF(MatrixXd newF);
+
+  /**
+   * Updates the Q matrix with the measurement noises for position X and Y
+   */
+  void updateQ(MatrixXd newQ);
+
+  /**
    * Prints all variables of Kalman Filter for debugging purposes
    */
 
