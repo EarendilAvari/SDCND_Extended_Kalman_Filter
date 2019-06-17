@@ -217,6 +217,7 @@ int main() {
       iss >> timestamp;
       meas_package.timestamp_ = timestamp;
       measurement_pack_list.push_back(meas_package);
+
     }
     else if (sensor_type.compare("R") == 0) {
       meas_package.sensor_type_ = MeasurementPackage::RADAR;
@@ -229,11 +230,12 @@ int main() {
       iss >> rho_dot;
 
       meas_package.raw_measurements_ << rho, theta, rho_dot;
+
+      iss >> timestamp;
+      meas_package.timestamp_ = timestamp;
+      measurement_pack_list.push_back(meas_package);
     }
 
-    iss >> timestamp;
-    meas_package.timestamp_ = timestamp;
-    measurement_pack_list.push_back(meas_package);
 
     i++;
   }

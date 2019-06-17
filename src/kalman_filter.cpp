@@ -47,6 +47,11 @@ void KalmanFilter::Update(const VectorXd &z) {
   // It updates the measurements of position and speed (x) with the difference between the predicted positions and real positions (y) and the 
   // Kalman gain (K)
   x_ = x_ + K*y; // (4x1) + (4x2)*(2x1) = (4x1)
+
+  // It updates the P matrix
+  int x_size = x_.size();
+  MatrixXd I = MatrixXd::Identity(x_size, x_size);
+  P_ = (I - K*H_)*P_;
 }
 
 VectorXd KalmanFilter::getX() {
