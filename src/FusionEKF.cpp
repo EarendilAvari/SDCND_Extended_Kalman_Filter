@@ -2,13 +2,13 @@
 #include <iostream>
 #include "Eigen/Dense"
 #include "tools.h"
+#include <cmath>
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 using std::cout;
 using std::endl;
 using std::vector;
-using std::pow;
 
 /**
  * Constructor.
@@ -17,6 +17,8 @@ FusionEKF::FusionEKF() {
   is_initialized_ = false;
 
   previous_timestamp_ = 0;
+
+  cycle_number = 0;
 
   // Creates local variables to initialize the Kalman filter matrices
   MatrixXd P_initial(4,4);
@@ -30,34 +32,34 @@ FusionEKF::FusionEKF() {
   MatrixXd H_radar_initial(3,4);
 
   // P is initialized with 
-  P_initial << 1, 0, 0, 0,
-               0, 1, 0, 0,
-               0, 0, 1000, 0,
-               0, 0, 0, 1000;
+  P_initial << 1.0, 0.0, 0.0, 0.0,
+               0.0, 1.0, 0.0, 0.0,
+               0.0, 0.0, 1000.0, 0.0,
+               0.0, 0.0, 0.0, 1000.0;
 
-  F_initial << 1, 0, 0, 0,
-               0, 1, 0, 1,
-               0, 0, 1, 0, 
-               0, 0, 0, 1;
+  F_initial << 1.0, 0.0, 1.0, 0.0,
+               0.0, 1.0, 0.0, 1.0,
+               0.0, 0.0, 1.0, 0.0, 
+               0.0, 0.0, 0.0, 1.0;
 
-  Q_initial << 0, 0, 0, 0,
-               0, 0, 0, 0,
-               0, 0, 0, 0,
-               0, 0, 0, 0;
+  Q_initial << 0.0, 0.0, 0.0, 0.0,
+               0.0, 0.0, 0.0, 0.0,
+               0.0, 0.0, 0.0, 0.0,
+               0.0, 0.0, 0.0, 0.0;
 
-  R_laser_initial << 0.0225, 0,
-                     0, 0.0225;
+  R_laser_initial << 0.0225, 0.0,
+                     0.0, 0.0225;
 
-  R_radar_initial << 0.09, 0, 0,
-                     0, 0.0009, 0,
-                     0, 0, 0.09;
+  R_radar_initial << 0.09, 0.0, 0.0,
+                     0.0, 0.0009, 0.0,
+                     0.0, 0.0, 0.09;
 
-  H_laser_initial << 1, 0, 0, 0,
-                     0, 1, 0, 0;
+  H_laser_initial << 1.0, 0.0, 0.0, 0.0,
+                     0.0, 1.0, 0.0, 0.0;
 
-  H_radar_initial << 0, 0, 0, 0,
-                     0, 0, 0, 0,
-                     0, 0, 0, 0;
+  H_radar_initial << 0.0, 0.0, 0.0, 0.0,
+                     0.0, 0.0, 0.0, 0.0,
+                     0.0, 0.0, 0.0, 0.0;
   
 
   // Initial values of other matrices of Kalman Filter
@@ -98,13 +100,12 @@ VectorXd FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pac
       py_0 = measurement_pack.raw_measurements_[1];
     }
 
-    firstMeasurement << px_0, py_0, 0, 0;
+    firstMeasurement << px_0, py_0, 0.0, 0.0;
     ekf_.InitX(firstMeasurement);
     previous_timestamp_ = measurement_pack.timestamp_;
 
     // done initializing, no need to predict or update
     is_initialized_ = true;
-
     
     /** Print 
     cout << "Kalman Filter initialized with: " << endl;
@@ -127,10 +128,10 @@ VectorXd FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pac
   previous_timestamp_ = measurement_pack.timestamp_;
 
   MatrixXd updated_F(4,4);
-  updated_F << 1, 0, dt, 0,
-               0, 1, 0, dt,
-               0, 0, 1, 0,
-               0, 0, 0, 1;
+  updated_F << 1.0, 0.0, dt, 0.0,
+               0.0, 1.0, 0.0, dt,
+               0.0, 0.0, 1.0, 0.0,
+               0.0, 0.0, 0.0, 1.0;
 
   ekf_.updateF(updated_F);
   
@@ -139,14 +140,14 @@ VectorXd FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pac
    * Use noise_ax = 9 and noise_ay = 9 for your Q matrix.
    */
 
-  float noise_ax = 9;
-  float noise_ay = 9;
+  float noise_ax = 9.0;
+  float noise_ay = 9.0;
 
   MatrixXd updated_Q(4,4);
-  updated_Q << (pow(dt,4)/4)*noise_ax, 0, (pow(dt,3)/2)*noise_ax, 0,
-               0, (pow(dt,4)/4)*noise_ay, 0, (pow(dt,3)/2)*noise_ay, 
-               (pow(dt,3)/2)*noise_ax, 0, pow(dt,2)*noise_ax, 0,
-               0, (pow(dt,3)/2)*noise_ay, 0, pow(dt,2)*noise_ay;
+  updated_Q << (pow(dt,4)/4.0)*noise_ax, 0.0, (pow(dt,3)/2.0)*noise_ax, 0.0,
+               0.0, (pow(dt,4)/4.0)*noise_ay, 0.0, (pow(dt,3)/2.0)*noise_ay, 
+               (pow(dt,3)/2.0)*noise_ax, 0.0, pow(dt,2.0)*noise_ax, 0.0,
+               0.0, (pow(dt,3)/2.0)*noise_ay, 0.0, pow(dt,2)*noise_ay;
 
   ekf_.updateQ(updated_Q);
 
@@ -157,10 +158,11 @@ VectorXd FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pac
    * - Use the sensor type to perform the update step.
    * - Update the state and covariance matrices.
    */
-
+  cout << endl << endl << endl;
   if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
     // Radar updates
     // Updates the H matrix for radar measurements
+    cout << "Radar measurement" << endl << endl;
     ekf_.UpdateH_radar(); 
     
     VectorXd z(3);
@@ -172,6 +174,7 @@ VectorXd FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pac
 
   } else {
     // Laser updates
+    cout << "Laser measurement" << endl << endl;
     VectorXd z(2);
     z << measurement_pack.raw_measurements_[0],
          measurement_pack.raw_measurements_[1];
@@ -180,11 +183,15 @@ VectorXd FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pac
     //ekf_.printAllVariables();
   }
 
-  // print the output
-  cout << endl << endl << endl;
+  cycle_number++;
+  if (cycle_number == 271) {
+    cycle_number = 271;
+  }
 
-  cout << "x_ = " << ekf_.getX() << endl << endl;
-  cout << "P_ = " << ekf_.getP() << endl;
+  // print the output
+  cout << "Cycle: " << cycle_number << endl << endl;
+  cout << "x_: " << endl << ekf_.getX() << endl << endl;
+  cout << "P_: " << endl << ekf_.getP() << endl;
 
   return ekf_.getX();
 }
@@ -193,7 +200,7 @@ VectorXd FusionEKF::CalculateRMSE(const std::vector<Eigen::VectorXd> &estimation
                                   const std::vector<Eigen::VectorXd> &ground_truth) {
   
   VectorXd RMSE(4);
-  RMSE << 0, 0, 0, 0;
+  RMSE << 0.0, 0.0, 0.0, 0.0;
   
   // Checks the validity of the inputs:
   if(estimations.size() == 0) {
@@ -211,7 +218,7 @@ VectorXd FusionEKF::CalculateRMSE(const std::vector<Eigen::VectorXd> &estimation
 
   // Accumulates the square differences between estimations and ground truth in a vector
   VectorXd xt_diff2_sum(4);
-  xt_diff2_sum << 0,0,0,0;
+  xt_diff2_sum << 0.0,0.0,0.0,0.0;
 
   for (int i=0; i < estimations.size(); i++) {
     VectorXd xt_est = estimations[i];
@@ -224,7 +231,7 @@ VectorXd FusionEKF::CalculateRMSE(const std::vector<Eigen::VectorXd> &estimation
   }
 
   // Calculates the mean using the sum of the square differences
-  float multiplier = (1/static_cast<float>(estimations.size()));
+  float multiplier = (1.0/static_cast<float>(estimations.size()));
   VectorXd xt_diff2_mean = multiplier*xt_diff2_sum.array();
 
   // Calculates the squared root of the mean

@@ -1,5 +1,6 @@
 #include "ExtendedKF_rl.h"
 #include <iostream>
+#include <cmath>
 
 using std::cout;
 using std::endl;
@@ -57,6 +58,23 @@ void ExtendedKF_rl::UpdateEKF(const VectorXd &z) {
 
   // It gets the difference between the transformed predicted measurement and the real measurement from the radar
   VectorXd y = z - z_pred; // (3x1) + (3x1) = (3x1)
+
+  // It corrects the phi value on the y vector if it is bigger than pi or smalled than -pi.
+  float corrected_phi;
+  if (y[1] > M_PI) {
+    corrected_phi = y[1] - 2.0*M_PI;
+  } 
+  else if (y[1] < -M_PI) {
+    corrected_phi = y[1] + 2.0*M_PI; 
+  }
+  else {
+    corrected_phi = y[1];
+  }
+
+  // It makes other vector with the corrected phi and the other two values.
+  VectorXd y_corr(3);
+  y_corr << y[0], corrected_phi, y[2];
+  
   // cout << y << endl << endl;
 
   // It calculates the Kalman gain (K matrix) using the state covariance matrix (P) and the observation matrix (H)
@@ -73,7 +91,7 @@ void ExtendedKF_rl::UpdateEKF(const VectorXd &z) {
 
   // It updates the measurements of position and speed (x) with the difference between the predicted positions and real positions (y) and the 
   // Kalman gain (K)
-  x_ = x_ + K*y;  // (4x1) + (4x3)x(3x1) = (4x1)
+  x_ = x_ + K*y_corr;  // (4x1) + (4x3)x(3x1) = (4x1)
   // cout << x_ << endl << endl;
 
   // It updates the P matrix
@@ -99,19 +117,19 @@ void ExtendedKF_rl::UpdateH_radar() {
   // cout << px2py2 << endl << endl;
 
   if (px2py2 == 0) {
-    Hj << 0, 0, 0, 0,
-          0, 0, 0, 0,
-          0, 0, 0, 0,
-          0, 0, 0, 0;
+    Hj << 0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0,
+          0.0, 0.0, 0.0, 0.0;
   }
   else {
     float px2py2_sqrt = sqrt(px2py2);
     // cout << px2py2_sqrt << endl << endl;
-    float px2py2_32 = pow(px2py2, 1.5);
+    float px2py2_32 = px2py2*px2py2_sqrt; // Exponents = 1 + 1/2 = 3/2. This is faster than using pow again.
     // cout << px2py2_32 << endl << endl;
 
-    Hj << px/px2py2_sqrt, py/px2py2_sqrt, 0, 0,
-          -py/px2py2, px/px2py2, 0, 0,
+    Hj << px/px2py2_sqrt, py/px2py2_sqrt, 0.0, 0.0,
+          -py/px2py2, px/px2py2, 0.0, 0.0,
           py*(vx*py - vy*px)/px2py2_32, px*(vy*px - vx*py)/px2py2_32, px/px2py2_sqrt, py/px2py2_sqrt;
     // cout << Hj << endl << endl;
   }

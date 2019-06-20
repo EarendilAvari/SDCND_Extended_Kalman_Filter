@@ -33,18 +33,17 @@ string hasData(string s) {
   return "";
 }
 
-int main_Future() {
+int main() {
   uWS::Hub h;
 
   // Create a Kalman Filter instance
   FusionEKF fusionEKF;
 
   // used to compute the RMSE later
-  Tools tools;
-  vector<VectorXd> estimations;
-  vector<VectorXd> ground_truth;
+  vector<VectorXd> est_vector;
+  vector<VectorXd> gt_vector;
 
-  h.onMessage([&fusionEKF,&tools,&estimations,&ground_truth]
+  h.onMessage([&fusionEKF,&est_vector,&gt_vector]
               (uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, 
                uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
@@ -109,33 +108,21 @@ int main_Future() {
           gt_values(1) = y_gt; 
           gt_values(2) = vx_gt;
           gt_values(3) = vy_gt;
-          ground_truth.push_back(gt_values);
+          gt_vector.push_back(gt_values);
           
           // Call ProcessMeasurement(meas_package) for Kalman filter
-          fusionEKF.ProcessMeasurement(meas_package);       
+          VectorXd est_values(4);
+          est_values = fusionEKF.ProcessMeasurement(meas_package);     
 
           // Push the current estimated x,y positon from the Kalman filter's 
           //   state vector
+          est_vector.push_back(est_values);  
 
-          VectorXd estimate(4);
-
-          double p_x = fusionEKF.ekf_.getX_n(0);
-          double p_y = fusionEKF.ekf_.getX_n(1);
-          double v1  = fusionEKF.ekf_.getX_n(2);
-          double v2 = fusionEKF.ekf_.getX_n(3);
-
-          estimate(0) = p_x;
-          estimate(1) = p_y;
-          estimate(2) = v1;
-          estimate(3) = v2;
-        
-          estimations.push_back(estimate);
-
-          VectorXd RMSE = tools.CalculateRMSE(estimations, ground_truth);
+          VectorXd RMSE = fusionEKF.CalculateRMSE(est_vector, gt_vector);
 
           json msgJson;
-          msgJson["estimate_x"] = p_x;
-          msgJson["estimate_y"] = p_y;
+          msgJson["estimate_x"] = est_values(0);
+          msgJson["estimate_y"] = est_values(1);
           msgJson["rmse_x"] =  RMSE(0);
           msgJson["rmse_y"] =  RMSE(1);
           msgJson["rmse_vx"] = RMSE(2);
@@ -175,7 +162,7 @@ int main_Future() {
   h.run();
 }
 
-int main() {
+int main_test() {
   /**
    * Set Measurements
    */
@@ -187,7 +174,7 @@ int main() {
   vector<VectorXd> gt_vector;
 
   // hardcoded input file with laser and radar measurements
-  string in_file_name = "debugDataFile.txt";
+  string in_file_name = "debugDataFile2.txt";
   ifstream in_file(in_file_name.c_str(), ifstream::in);
 
   if (!in_file.is_open()) {
