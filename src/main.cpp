@@ -33,7 +33,7 @@ string hasData(string s) {
   return "";
 }
 
-int main() {
+int main_Future() {
   uWS::Hub h;
 
   // Create a Kalman Filter instance
@@ -162,7 +162,7 @@ int main() {
   h.run();
 }
 
-int main_test() {
+int main() {
   /**
    * Set Measurements
    */
