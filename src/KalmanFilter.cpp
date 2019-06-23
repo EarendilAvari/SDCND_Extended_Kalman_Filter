@@ -1,4 +1,4 @@
-#include "kalman_filter.h"
+#include "KalmanFilter.h"
 #include <iostream>
 
 using std::cout;
@@ -6,7 +6,7 @@ using std::endl;
 
 /* 
  * Please note that the Eigen library does not initialize 
- *   VectorXd or MatrixXd objects with zeros upon creation.
+ * VectorXd or MatrixXd objects with zeros upon creation.
  */
 
 KalmanFilter::KalmanFilter() {}

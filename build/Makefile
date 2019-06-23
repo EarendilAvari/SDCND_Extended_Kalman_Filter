@@ -177,32 +177,32 @@ src/FusionEKF.cpp.s:
 	$(MAKE) -f CMakeFiles/ExtendedKF.dir/build.make CMakeFiles/ExtendedKF.dir/src/FusionEKF.cpp.s
 .PHONY : src/FusionEKF.cpp.s
 
-src/kalman_filter.o: src/kalman_filter.cpp.o
+src/KalmanFilter.o: src/KalmanFilter.cpp.o
 
-.PHONY : src/kalman_filter.o
+.PHONY : src/KalmanFilter.o
 
 # target to build an object file
-src/kalman_filter.cpp.o:
-	$(MAKE) -f CMakeFiles/ExtendedKF.dir/build.make CMakeFiles/ExtendedKF.dir/src/kalman_filter.cpp.o
-.PHONY : src/kalman_filter.cpp.o
+src/KalmanFilter.cpp.o:
+	$(MAKE) -f CMakeFiles/ExtendedKF.dir/build.make CMakeFiles/ExtendedKF.dir/src/KalmanFilter.cpp.o
+.PHONY : src/KalmanFilter.cpp.o
 
-src/kalman_filter.i: src/kalman_filter.cpp.i
+src/KalmanFilter.i: src/KalmanFilter.cpp.i
 
-.PHONY : src/kalman_filter.i
+.PHONY : src/KalmanFilter.i
 
 # target to preprocess a source file
-src/kalman_filter.cpp.i:
-	$(MAKE) -f CMakeFiles/ExtendedKF.dir/build.make CMakeFiles/ExtendedKF.dir/src/kalman_filter.cpp.i
-.PHONY : src/kalman_filter.cpp.i
+src/KalmanFilter.cpp.i:
+	$(MAKE) -f CMakeFiles/ExtendedKF.dir/build.make CMakeFiles/ExtendedKF.dir/src/KalmanFilter.cpp.i
+.PHONY : src/KalmanFilter.cpp.i
 
-src/kalman_filter.s: src/kalman_filter.cpp.s
+src/KalmanFilter.s: src/KalmanFilter.cpp.s
 
-.PHONY : src/kalman_filter.s
+.PHONY : src/KalmanFilter.s
 
 # target to generate assembly for a file
-src/kalman_filter.cpp.s:
-	$(MAKE) -f CMakeFiles/ExtendedKF.dir/build.make CMakeFiles/ExtendedKF.dir/src/kalman_filter.cpp.s
-.PHONY : src/kalman_filter.cpp.s
+src/KalmanFilter.cpp.s:
+	$(MAKE) -f CMakeFiles/ExtendedKF.dir/build.make CMakeFiles/ExtendedKF.dir/src/KalmanFilter.cpp.s
+.PHONY : src/KalmanFilter.cpp.s
 
 src/main.o: src/main.cpp.o
 
@@ -246,9 +246,9 @@ help:
 	@echo "... src/FusionEKF.o"
 	@echo "... src/FusionEKF.i"
 	@echo "... src/FusionEKF.s"
-	@echo "... src/kalman_filter.o"
-	@echo "... src/kalman_filter.i"
-	@echo "... src/kalman_filter.s"
+	@echo "... src/KalmanFilter.o"
+	@echo "... src/KalmanFilter.i"
+	@echo "... src/KalmanFilter.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

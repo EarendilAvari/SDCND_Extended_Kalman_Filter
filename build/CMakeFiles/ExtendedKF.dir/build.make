@@ -83,18 +83,18 @@ CMakeFiles/ExtendedKF.dir/src/FusionEKF.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ExtendedKF.dir/src/FusionEKF.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/FusionEKF.cpp -o CMakeFiles/ExtendedKF.dir/src/FusionEKF.cpp.s
 
-CMakeFiles/ExtendedKF.dir/src/kalman_filter.cpp.o: CMakeFiles/ExtendedKF.dir/flags.make
-CMakeFiles/ExtendedKF.dir/src/kalman_filter.cpp.o: ../src/kalman_filter.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/ExtendedKF.dir/src/kalman_filter.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ExtendedKF.dir/src/kalman_filter.cpp.o -c /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/kalman_filter.cpp
+CMakeFiles/ExtendedKF.dir/src/KalmanFilter.cpp.o: CMakeFiles/ExtendedKF.dir/flags.make
+CMakeFiles/ExtendedKF.dir/src/KalmanFilter.cpp.o: ../src/KalmanFilter.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/ExtendedKF.dir/src/KalmanFilter.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ExtendedKF.dir/src/KalmanFilter.cpp.o -c /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/KalmanFilter.cpp
 
-CMakeFiles/ExtendedKF.dir/src/kalman_filter.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ExtendedKF.dir/src/kalman_filter.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/kalman_filter.cpp > CMakeFiles/ExtendedKF.dir/src/kalman_filter.cpp.i
+CMakeFiles/ExtendedKF.dir/src/KalmanFilter.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ExtendedKF.dir/src/KalmanFilter.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/KalmanFilter.cpp > CMakeFiles/ExtendedKF.dir/src/KalmanFilter.cpp.i
 
-CMakeFiles/ExtendedKF.dir/src/kalman_filter.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ExtendedKF.dir/src/kalman_filter.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/kalman_filter.cpp -o CMakeFiles/ExtendedKF.dir/src/kalman_filter.cpp.s
+CMakeFiles/ExtendedKF.dir/src/KalmanFilter.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ExtendedKF.dir/src/KalmanFilter.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/KalmanFilter.cpp -o CMakeFiles/ExtendedKF.dir/src/KalmanFilter.cpp.s
 
 CMakeFiles/ExtendedKF.dir/src/ExtendedKF_rl.cpp.o: CMakeFiles/ExtendedKF.dir/flags.make
 CMakeFiles/ExtendedKF.dir/src/ExtendedKF_rl.cpp.o: ../src/ExtendedKF_rl.cpp
@@ -113,7 +113,7 @@ CMakeFiles/ExtendedKF.dir/src/ExtendedKF_rl.cpp.s: cmake_force
 ExtendedKF_OBJECTS = \
 "CMakeFiles/ExtendedKF.dir/src/main.cpp.o" \
 "CMakeFiles/ExtendedKF.dir/src/FusionEKF.cpp.o" \
-"CMakeFiles/ExtendedKF.dir/src/kalman_filter.cpp.o" \
+"CMakeFiles/ExtendedKF.dir/src/KalmanFilter.cpp.o" \
 "CMakeFiles/ExtendedKF.dir/src/ExtendedKF_rl.cpp.o"
 
 # External object files for target ExtendedKF
@@ -121,7 +121,7 @@ ExtendedKF_EXTERNAL_OBJECTS =
 
 ExtendedKF: CMakeFiles/ExtendedKF.dir/src/main.cpp.o
 ExtendedKF: CMakeFiles/ExtendedKF.dir/src/FusionEKF.cpp.o
-ExtendedKF: CMakeFiles/ExtendedKF.dir/src/kalman_filter.cpp.o
+ExtendedKF: CMakeFiles/ExtendedKF.dir/src/KalmanFilter.cpp.o
 ExtendedKF: CMakeFiles/ExtendedKF.dir/src/ExtendedKF_rl.cpp.o
 ExtendedKF: CMakeFiles/ExtendedKF.dir/build.make
 ExtendedKF: CMakeFiles/ExtendedKF.dir/link.txt

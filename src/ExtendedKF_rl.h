@@ -2,7 +2,7 @@
 #define EXTENDEDKF_RL
 
 #include "Eigen/Dense"
-#include "kalman_filter.h"
+#include "KalmanFilter.h"
 
 class ExtendedKF_rl: public KalmanFilter {
   public: 
@@ -14,13 +14,13 @@ class ExtendedKF_rl: public KalmanFilter {
 
   virtual ~ExtendedKF_rl();
 
-    /**
+   /**
    * Updates the state by using Extended Kalman Filter equations
    * @param z The measurement at k+1
    */
   void UpdateEKF(const Eigen::VectorXd &z);
 
-  /**
+   /**
    * Updates the H matrix used for radar measurements calculating the Jacobian of the h function used to convert
    * the estimated radar measurements from cartesian coordinates to polar coordinates
    */

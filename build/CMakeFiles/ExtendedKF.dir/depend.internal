@@ -201,7 +201,7 @@ CMakeFiles/ExtendedKF.dir/src/ExtendedKF_rl.cpp.o
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/Eigen/src/plugins/MatrixCwiseUnaryOps.h
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/ExtendedKF_rl.cpp
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/ExtendedKF_rl.h
- /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/kalman_filter.h
+ /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/KalmanFilter.h
 CMakeFiles/ExtendedKF.dir/src/FusionEKF.cpp.o
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/Eigen/Cholesky
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/Eigen/Core
@@ -403,9 +403,9 @@ CMakeFiles/ExtendedKF.dir/src/FusionEKF.cpp.o
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/ExtendedKF_rl.h
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/FusionEKF.cpp
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/FusionEKF.h
- /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/kalman_filter.h
+ /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/KalmanFilter.h
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/measurement_package.h
-CMakeFiles/ExtendedKF.dir/src/kalman_filter.cpp.o
+CMakeFiles/ExtendedKF.dir/src/KalmanFilter.cpp.o
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/Eigen/Cholesky
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/Eigen/Core
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/Eigen/Dense
@@ -603,8 +603,8 @@ CMakeFiles/ExtendedKF.dir/src/kalman_filter.cpp.o
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/Eigen/src/plugins/CommonCwiseUnaryOps.h
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/Eigen/src/plugins/MatrixCwiseBinaryOps.h
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/Eigen/src/plugins/MatrixCwiseUnaryOps.h
- /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/kalman_filter.cpp
- /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/kalman_filter.h
+ /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/KalmanFilter.cpp
+ /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/KalmanFilter.h
 CMakeFiles/ExtendedKF.dir/src/main.cpp.o
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/Eigen/Cholesky
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/Eigen/Core
@@ -805,7 +805,7 @@ CMakeFiles/ExtendedKF.dir/src/main.cpp.o
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/Eigen/src/plugins/MatrixCwiseUnaryOps.h
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/ExtendedKF_rl.h
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/FusionEKF.h
+ /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/KalmanFilter.h
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/json.hpp
- /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/kalman_filter.h
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/main.cpp
  /mnt/data/Udacity/Self_driving_car_engineer/Project5/My_Project/src/measurement_package.h

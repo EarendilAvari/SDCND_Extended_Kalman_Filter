@@ -30,7 +30,7 @@ FusionEKF::FusionEKF() {
   MatrixXd H_laser_initial(2,4);
   MatrixXd H_radar_initial(3,4);
 
-  // P is initialized with 
+  // P is initialized with 1 variance for the positions and 1000 for the speeds
   P_initial << 1.0, 0.0, 0.0, 0.0,
                0.0, 1.0, 0.0, 0.0,
                0.0, 0.0, 1000.0, 0.0,
@@ -76,25 +76,18 @@ VectorXd FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pac
    * Initialization
    */
   if (!is_initialized_) {
-    /**
-     * Initialize the state ekf_.x_ with the first measurement.
-     * Create the covariance matrix.
-     * You'll need to convert radar from polar to cartesian coordinates.
-     */
 
     // first measurement
-    cout << "EKF: " << endl;
     VectorXd firstMeasurement(4);
     float px_0, py_0;
 
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
-      // TODO: Convert radar from polar to cartesian coordinates 
-      //         and initialize state.
+      // Converts the radar measurements from polar coordinates to cartesian coordinates
       px_0 = measurement_pack.raw_measurements_[0]*sin(measurement_pack.raw_measurements_[1]);
       py_0 = measurement_pack.raw_measurements_[0]*cos(measurement_pack.raw_measurements_[1]);
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
-      // TODO: Initialize state.
+      // Copies directly the laser measurements to the first filter measurement
       px_0 = measurement_pack.raw_measurements_[0];
       py_0 = measurement_pack.raw_measurements_[1];
     }
@@ -103,10 +96,9 @@ VectorXd FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pac
     ekf_.InitX(firstMeasurement);
     previous_timestamp_ = measurement_pack.timestamp_;
 
-    // done initializing, no need to predict or update
     is_initialized_ = true;
     
-    /** Print 
+    /** Debugging print
     cout << "Kalman Filter initialized with: " << endl;
     ekf_.printAllVariables();
     **/
@@ -135,7 +127,7 @@ VectorXd FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pac
   ekf_.updateF(updated_F);
   
   /**
-   * Update the process noise covariance matrix.
+   * Update the process noise covariance matrix with delta timestamp
    * Use noise_ax = 9 and noise_ay = 9 for your Q matrix.
    */
 
@@ -152,15 +144,11 @@ VectorXd FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pac
 
   ekf_.Predict();
 
-  /**
-   * 
-   * - Use the sensor type to perform the update step.
-   * - Update the state and covariance matrices.
-   */
+  // Leaves a pair empty lines between cycles
   cout << endl << endl << endl;
   if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
     // Radar updates
-    // Updates the H matrix for radar measurements
+    // Updates the H matrix for radar measurements using Jacobian
     cout << "Radar measurement" << endl << endl;
     ekf_.UpdateH_radar(); 
     
@@ -168,7 +156,7 @@ VectorXd FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pac
     z << measurement_pack.raw_measurements_[0],
          measurement_pack.raw_measurements_[1],
          measurement_pack.raw_measurements_[2];
-
+    // Updates mean measurement vector and measurement covariance matrix
     ekf_.UpdateEKF(z);
 
   } else {
@@ -177,15 +165,10 @@ VectorXd FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pac
     VectorXd z(2);
     z << measurement_pack.raw_measurements_[0],
          measurement_pack.raw_measurements_[1];
-    
+    // Updates mean measurement vector and measurement covariance matrix
     ekf_.Update(z);
-    //ekf_.printAllVariables();
   }
-
   cycle_number++;
-  if (cycle_number == 271) {
-    cycle_number = 271;
-  }
 
   // print the output
   cout << "Cycle: " << cycle_number << endl << endl;

@@ -129,7 +129,29 @@ The file main.cpp contains two main functions, one used mainly for debugging whi
 
 ### Results
 
-By running the software at the first time on the file obj_pose-laser-radar-synthetic-input.txt the RMSE was very high, reaching 2 for the speed on the x axis. After adding to the method UpdateEKF of ExtendedKF_rl a correction step for the measured angle on y_ (see equation 12) the results improved drastically, reaching an RMSE of 0.097, 0.085, 0.450, 0.440. By running the software on the second dataset using the simulator an RMSE of 0.0723, 0.0969, 0.4137, 0.5277 is reached.
+In order to determine how good the software works, the indicator [Root Mean Squared Error (RMSE) ](https://en.wikipedia.org/wiki/Root-mean-square_deviation) between the estimations and the real values is calculated. For that, the datasets also contain the real position and speed values.
+
+#### Dataset 1
+
+By running the software at the first time on the file obj_pose-laser-radar-synthetic-input.txt the RMSE was very high, reaching 2 for the speed on the x axis. After adding to the method UpdateEKF of ExtendedKF_rl a correction step for the measured angle on y_ (see equation 12) the results improved drastically, reaching an RMSE of 0.097, 0.085, 0.450, 0.440. This can be seen in the following video:
+
+[![Kalman Filter dataset 1](https://i.imgur.com/ltE4A4r.png)](https://youtu.be/_4GHmMmCGck "Extended Kalman filter dataset 1") 
+
+#### Dataset 2
+
+By running the software on the second dataset using the simulator an RMSE of 0.0723, 0.0969, 0.4137, 0.5277 is reached. This can be seen in the following video:
+
+[![Kalman Filter dataset 2](https://i.imgur.com/uXfcAf8.png)](https://youtu.be/7XQytqWgZCo "Extended Kalman filter dataset 2") 
+
+#### Using only one kind of sensor
+
+By running the software using only the laser measurements of the dataset 1, an RMSE of 0.1221, 0.0983, 0.5825, 0.4567 is obtained, which is worse than the RMSE obtained using both data.  By doing the same using only the radar measurements an RMSE of 0.1951, 0.2799, 0.5718, 0.6712 is obtained, this is even worse than using only the laser data. 
+
+The fact that both configurations have worse performance than using both kind of sensors can be explained by looking at the F and Q matrices, both of them depend on the time difference between the current and the last measurements, which normally gets bigger if only one kind of sensor is used. 
+
+In the case of the dataset 1 the measurements are alternated, having first a laser measurement and then a radar measurement. The measurements are received exactly every 50 ms, which means that time difference is always 50 ms. If only one kind of sensor is used, that time difference increases to 100 ms. This makes increase the covariances on the Q matrix that is used to predict the P matrix on the prediction phase (See equation 8). The same happens with the F matrix, whose two terms depends on this time difference. Being P the covariance matrix which indicates how certain the estimations are, bigger values on it implicates more uncertain estimations and therefore a bigger RMSE.
+
+The fact that using laser measurements is better than only using radar measurements can be explained with the fact that the Kalman filter can be used directly on laser measurements, but in the case of radar measurements, an aproximation is used. This is done on the equations (13) and (14) where the Jacobian matrix of the function h (equation (15)) is used. Right would be to use a Taylor serie in order to aproximate that matrix, using not only the Jacobian matrix, but the derivatives until infinite. This is obviously unpractical and therefore not done. The problem is, by doing this rought linear aproximation of the h function more uncertainity is introduced to the system, and this uncertain matrix is used to update the measurements vector x and the measurement covariance matrix P.
 
 ### How to use
 
@@ -145,6 +167,8 @@ The software is already compiled in this repository in the folder "build", but h
 - Press start and see how the car moves and the measurements and estimations are shown.
 
 These steps are for a linux environment. For other operative systems see the [Udacity's repository](https://github.com/udacity/CarND-Extended-Kalman-Filter-Project).
+
+
 
 
 

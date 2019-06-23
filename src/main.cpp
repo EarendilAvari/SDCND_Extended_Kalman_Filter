@@ -182,9 +182,6 @@ int main_debug() {
 
   string line;
 
-  // Set i to get only first 6 measurements
-
-  int i = 0;
   while (getline(in_file, line)) {
 
     MeasurementPackage meas_package;
@@ -195,7 +192,8 @@ int main_debug() {
     iss >> sensor_type; // Reads the first elemenf from the current line
     int64_t timestamp;
 
-    if (sensor_type.compare("L") == 0) { // Laser measurement
+    if (sensor_type.compare("L") == 0) { // Laser measurement 
+      
       meas_package.sensor_type_ = MeasurementPackage::LASER;
       meas_package.raw_measurements_ = VectorXd(2);
       float x;
@@ -207,10 +205,10 @@ int main_debug() {
 
       iss >> timestamp;
       meas_package.timestamp_ = timestamp;
-      measurement_pack_list.push_back(meas_package);
+      measurement_pack_list.push_back(meas_package); 
 
     }
-    else if (sensor_type.compare("R") == 0) {
+    else if (sensor_type.compare("R") == 0) {  
       meas_package.sensor_type_ = MeasurementPackage::RADAR;
       meas_package.raw_measurements_ = VectorXd(3);
       float rho;
@@ -225,8 +223,9 @@ int main_debug() {
       iss >> timestamp;
       meas_package.timestamp_ = timestamp;
       measurement_pack_list.push_back(meas_package);
+      
     }
-
+     
     VectorXd gt_values(4);
     float gt_px;
     float gt_py;
@@ -241,14 +240,14 @@ int main_debug() {
     gt_values << gt_px, gt_py, gt_vx, gt_vy;
 
     gt_vector.push_back(gt_values);
+    
 
-    i++;
   }
 
   // Create a FusionEKF instance
   FusionEKF fusionEKF;
 
-  // Call the ProcessMeasurement() function for each measurement
+  // Call the ProcessMeasurement() function for each measurement and prints x_ and P_ on every iteration
   size_t N = measurement_pack_list.size();
 
   VectorXd est_values(4);
@@ -256,7 +255,7 @@ int main_debug() {
     est_values = fusionEKF.ProcessMeasurement(measurement_pack_list[k]);
     est_vector.push_back(est_values);
   }
-
+  // Calculates the RMSE 
   VectorXd filter_RMSE(4);
   filter_RMSE = fusionEKF.CalculateRMSE(est_vector, gt_vector);
 

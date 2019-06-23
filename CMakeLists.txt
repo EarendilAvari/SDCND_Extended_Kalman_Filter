@@ -7,8 +7,8 @@ add_definitions(-std=c++11)
 set(CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS "${CXX_FLAGS}")
 
-set(sources src/main.cpp src/FusionEKF.cpp src/kalman_filter.cpp 
-    src/FusionEKF.h src/kalman_filter.h src/ExtendedKF_rl.h src/ExtendedKF_rl.cpp)
+set(sources src/main.cpp src/FusionEKF.cpp src/KalmanFilter.cpp 
+    src/FusionEKF.h src/KalmanFilter.h src/ExtendedKF_rl.h src/ExtendedKF_rl.cpp)
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -Wall")
 
