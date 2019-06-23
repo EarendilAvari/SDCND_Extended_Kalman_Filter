@@ -7,7 +7,6 @@
 #include "Eigen/Dense"
 #include "ExtendedKF_rl.h"
 #include "measurement_package.h"
-#include "tools.h"
 
 class FusionEKF {
  public:
@@ -39,12 +38,6 @@ class FusionEKF {
    */
   ExtendedKF_rl ekf_;
 
-  /**
-   * Tools instance for helper methods
-   */
-
-  Tools hm_;
-
  private:
   // check whether the tracking toolbox was initialized or not (first measurement)
   bool is_initialized_;
@@ -54,9 +47,6 @@ class FusionEKF {
 
   // Cycle number
   int cycle_number;
-
-  // tool object used to compute Jacobian and RMSE
-  Tools tools;
 };
 
 #endif // FusionEKF_H_

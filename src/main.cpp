@@ -3,7 +3,6 @@
 #include <iostream>
 #include "json.hpp"
 #include "FusionEKF.h"
-#include "tools.h"
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -33,7 +32,7 @@ string hasData(string s) {
   return "";
 }
 
-int main_Future() {
+int main() {
   uWS::Hub h;
 
   // Create a Kalman Filter instance
@@ -162,7 +161,7 @@ int main_Future() {
   h.run();
 }
 
-int main() {
+int main_debug() {
   /**
    * Set Measurements
    */

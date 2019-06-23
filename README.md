@@ -127,8 +127,27 @@ For the prediction phase the equations used on this project are the same for rad
 
 ### About the software structure
 
+The software is object oriented structured, with four classes:
+- MeasurementPackage: Objects of this class contain the raw data received from the CSV file or the simulator.
+- KalmanFilter: This class contains the variables and methods needed to run a normal Kalman filter.
+- ExtendedKF_rl: This class inherits the variables and methods of the KalmanFilter class and has additionaly some other variables and methods in order to run an extended Kalman filter. Different than in the normal KalmanFilter class, this class is not general, it is made exactly for this application.
+- FusionEKF: This class runs the extended Kalman filter algorithm using radar or laser measurements.
+
+The structure can be explained with the following class diagram:
+
+![ Image1](./Images/ClassDiagram.png  "Class diagram")
+
+
+The method ProcessMeasurement of the class FusionEKF is the core point of this project, it is called by the main function for every measurement package. The following diagram describes how this method works:
+
+![ Image2](./Images/ProcessMeasurement.png  "Process measurement")
+
+The file main.cpp contains two main functions, one used mainly for debugging which uses a txt file with measurements to run the methods ProcessMeasurement and CalculateRMSE of FusionEKF. The other main function uses uWebSockets to communicate with the Udacity term 2 simulator. There it can be seen how the object actually moves arround the measuring car, together with the raw laser and radar measurements and the estimations of the algorithm.
 
 ### Results
 
+By running the software at the first time on the file obj_pose-laser-radar-synthetic-input.txt the RMSE was very high, reaching 2 for the speed on the x axis. After adding to the method UpdateEKF of ExtendedKF_rl a correction step for the measured angle on y_ (see equation 12) the results improved drastically, reaching an RMSE of 0.097, 0.085, 0.450, 0.440. By running the software on the second dataset using the simulator an RMSE of 0.0723, 0.0969, 0.4137, 0.5277 is reached.
 
 ### How to use
+
+

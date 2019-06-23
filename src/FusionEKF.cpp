@@ -1,7 +1,6 @@
 #include "FusionEKF.h"
 #include <iostream>
 #include "Eigen/Dense"
-#include "tools.h"
 #include <cmath>
 
 using Eigen::MatrixXd;
@@ -132,7 +131,7 @@ VectorXd FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pac
                0.0, 1.0, 0.0, dt,
                0.0, 0.0, 1.0, 0.0,
                0.0, 0.0, 0.0, 1.0;
-https://de.wikipedia.org/wiki/Marta_Jandov%C3%A1
+
   ekf_.updateF(updated_F);
   
   /**
