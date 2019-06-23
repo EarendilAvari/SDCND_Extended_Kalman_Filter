@@ -150,4 +150,14 @@ By running the software at the first time on the file obj_pose-laser-radar-synth
 
 ### How to use
 
+The software is already compiled in this repository in the folder "build", but here is explained how it can be compiled again:
+
+- Install the required dependencies: gcc/g++ >= 5.4, make >= 4.1, cmake >= 3.5.
+- Install uWebSockets using the file /install-linux.sh
+- Delete the directory build and create a new one with: mkdir build.
+- Move to the build directory with: cd build.
+- Compile with: cmake .. && make.
+- Run the program with: ./ExtendedKF.
+- Open the term 2 simulator and select Project 1/2: EKF and UKF.
+- Press start and see how the car moves and the measurements and estimations are shown.
 
