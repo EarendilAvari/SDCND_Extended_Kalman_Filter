@@ -24,104 +24,87 @@ The algorithm is a linear dynamic system and therefore can be expressed using ma
 
 The first phase which is called "prediction phase" can be described using the following equation:
 
-$$ x_{k} = F \cdot x_{k-1} + u_{k}		(1) $$
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$&space;x_{k}&space;=&space;F&space;\cdot&space;x_{k-1}&space;&plus;&space;u_{k}&space;(1)&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$&space;x_{k}&space;=&space;F&space;\cdot&space;x_{k-1}&space;&plus;&space;u_{k}&space;(1)&space;$$" title="$$ x_{k} = F \cdot x_{k-1} + u_{k} (1) $$" /></a>
 
 Where:
-$$ x_{k} $$ : Mean of predicted measurements on this cycle.
-$$ F $$ : State transition matrix.
-$$ x_{k-1} $$ : Mean of updated measurements on the last cycle.
-$$ u_{k} $$ : External input.
+- <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;x_{k}&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;x_{k}&space;$$" title="$$ x_{k} $$" /></a> : Mean of predicted measurements on this cycle.
 
-The vector x can be descomposed as following: 
+- <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;F&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;F&space;$$" title="$$ F $$" /></a> : State transition matrix.
 
-$$ x = \begin{pmatrix} 
-p_{x} \\
-p_{y} \\
-v_{x} \\ 
-v_{y} 
-\end{pmatrix} (2) $$
+- <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;x_{k-1}&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;x_{k-1}&space;$$" title="$$ x_{k-1} $$" /></a> : Mean of updated measurements on the last cycle.
+- <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;u_{k}&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;u_{k}&space;$$" title="$$ u_{k} $$" /></a> : External input.
+
+The vector <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;x&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;x&space;$$" title="$$ x $$" /></a> can be descomposed as following: 
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$&space;x&space;=&space;\begin{pmatrix}&space;p_{x}&space;\\&space;p_{y}&space;\\&space;v_{x}&space;\\&space;v_{y}&space;\end{pmatrix}&space;(2)&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$&space;x&space;=&space;\begin{pmatrix}&space;p_{x}&space;\\&space;p_{y}&space;\\&space;v_{x}&space;\\&space;v_{y}&space;\end{pmatrix}&space;(2)&space;$$" title="$$ x = \begin{pmatrix} p_{x} \\ p_{y} \\ v_{x} \\ v_{y} \end{pmatrix} (2) $$" /></a>
 
 In the case of the filter used on this project, it is assumed that the speed stays constant and there is no external input, so:
 
-$$ p_{x_{k}} = p_{x_{k-1}} + \Delta t \cdot v_{x_{k-1}} (3)$$
-$$ p_{y_{k}} = p_{y_{k-1}} + \Delta t \cdot v_{y_{k-1}} (4)$$
-$$ v_{x_{k}} = v_{x_{k-1}} (5) $$
-$$ v_{y_{k}} = v_{y_{k-1}} (6) $$
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$&space;p_{x_{k}}&space;=&space;p_{x_{k-1}}&space;&plus;&space;\Delta&space;t&space;\cdot&space;v_{x_{k-1}}&space;(3)$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$&space;p_{x_{k}}&space;=&space;p_{x_{k-1}}&space;&plus;&space;\Delta&space;t&space;\cdot&space;v_{x_{k-1}}&space;(3)$$" title="$$ p_{x_{k}} = p_{x_{k-1}} + \Delta t \cdot v_{x_{k-1}} (3)$$" /></a>
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$&space;p_{y_{k}}&space;=&space;p_{y_{k-1}}&space;&plus;&space;\Delta&space;t&space;\cdot&space;v_{y_{k-1}}&space;(4)$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$&space;p_{y_{k}}&space;=&space;p_{y_{k-1}}&space;&plus;&space;\Delta&space;t&space;\cdot&space;v_{y_{k-1}}&space;(4)$$" title="$$ p_{y_{k}} = p_{y_{k-1}} + \Delta t \cdot v_{y_{k-1}} (4)$$" /></a>
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$&space;v_{x_{k}}&space;=&space;v_{x_{k-1}}&space;(5)&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$&space;v_{x_{k}}&space;=&space;v_{x_{k-1}}&space;(5)&space;$$" title="$$ v_{x_{k}} = v_{x_{k-1}} (5) $$" /></a>
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$&space;v_{y_{k}}&space;=&space;v_{y_{k-1}}&space;(6)&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$&space;v_{y_{k}}&space;=&space;v_{y_{k-1}}&space;(6)&space;$$" title="$$ v_{y_{k}} = v_{y_{k-1}} (6) $$" /></a>
 
 From these equations, the F matrix can be defined as: 
 
-$$ F = \begin{pmatrix}
-1 & 0 & \Delta t & 0 \\
-0 & 1 & 0 & \Delta t \\
-0 & 0 & 1 & 0 \\
-0 & 0 & 0 & 1
-\end{pmatrix}(7)$$
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$&space;F&space;=&space;\begin{pmatrix}&space;1&space;&&space;0&space;&&space;\Delta&space;t&space;&&space;0&space;\\&space;0&space;&&space;1&space;&&space;0&space;&&space;\Delta&space;t&space;\\&space;0&space;&&space;0&space;&&space;1&space;&&space;0&space;\\&space;0&space;&&space;0&space;&&space;0&space;&&space;1&space;\end{pmatrix}(7)$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$&space;F&space;=&space;\begin{pmatrix}&space;1&space;&&space;0&space;&&space;\Delta&space;t&space;&&space;0&space;\\&space;0&space;&&space;1&space;&&space;0&space;&&space;\Delta&space;t&space;\\&space;0&space;&&space;0&space;&&space;1&space;&&space;0&space;\\&space;0&space;&&space;0&space;&&space;0&space;&&space;1&space;\end{pmatrix}(7)$$" title="$$ F = \begin{pmatrix} 1 & 0 & \Delta t & 0 \\ 0 & 1 & 0 & \Delta t \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{pmatrix}(7)$$" /></a>
 
-Since there is no external input, u is 0 in all its components and therefore not part of the algorithm.
+Since there is no external input, <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;u&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;u&space;$$" title="$$ u $$" /></a> is 0 in all its components and therefore not part of the algorithm.
 
-The matrix P is not used on this phase but it is also predicted here using the following equation:
+The matrix <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;P&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;P&space;$$" title="$$ P $$" /></a> is not used on this phase but it is also predicted here using the following equation:
 
-$$ P_{k} = F \cdot P_{k-1} \cdot F^{T} + Q (8)$$
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$&space;P_{k}&space;=&space;F&space;\cdot&space;P_{k-1}&space;\cdot&space;F^{T}&space;&plus;&space;Q&space;(8)$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$&space;P_{k}&space;=&space;F&space;\cdot&space;P_{k-1}&space;\cdot&space;F^{T}&space;&plus;&space;Q&space;(8)$$" title="$$ P_{k} = F \cdot P_{k-1} \cdot F^{T} + Q (8)$$" /></a>
 
-Q corresponds to the process noise matrix which is given as:
+<a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;Q&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;Q&space;$$" title="$$ Q $$" /></a> corresponds to the process noise matrix which is given as:
 
-$$ Q = \begin{pmatrix}
-\frac{\Delta t^{4}}{4} \sigma_{ax}^{2} & 0 & \frac{\Delta t^{3}}{2} \sigma_{ax}^{2} & 0 \\
-0 & \frac{\Delta t^{4}}{4} \sigma_{ay}^{2} & 0 & \frac{\Delta t^{3}}{2} \sigma_{ay}^{2} \\
-\frac{\Delta t^{3}}{2} \sigma_{ax}^{2} & 0 & \Delta t^{2} \sigma_{ax}^{2} & 0 \\
-0 & \frac{\Delta t^{3}}{2} \sigma_{ay}^{2} & 0 & \Delta t^{2} \sigma_{ay}^{2}
-\end{pmatrix}(9)$$.
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$&space;Q&space;=&space;\begin{pmatrix}&space;\frac{\Delta&space;t^{4}}{4}&space;\sigma_{ax}^{2}&space;&&space;0&space;&&space;\frac{\Delta&space;t^{3}}{2}&space;\sigma_{ax}^{2}&space;&&space;0&space;\\&space;0&space;&&space;\frac{\Delta&space;t^{4}}{4}&space;\sigma_{ay}^{2}&space;&&space;0&space;&&space;\frac{\Delta&space;t^{3}}{2}&space;\sigma_{ay}^{2}&space;\\&space;\frac{\Delta&space;t^{3}}{2}&space;\sigma_{ax}^{2}&space;&&space;0&space;&&space;\Delta&space;t^{2}&space;\sigma_{ax}^{2}&space;&&space;0&space;\\&space;0&space;&&space;\frac{\Delta&space;t^{3}}{2}&space;\sigma_{ay}^{2}&space;&&space;0&space;&&space;\Delta&space;t^{2}&space;\sigma_{ay}^{2}&space;\end{pmatrix}(9)$$." target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$&space;Q&space;=&space;\begin{pmatrix}&space;\frac{\Delta&space;t^{4}}{4}&space;\sigma_{ax}^{2}&space;&&space;0&space;&&space;\frac{\Delta&space;t^{3}}{2}&space;\sigma_{ax}^{2}&space;&&space;0&space;\\&space;0&space;&&space;\frac{\Delta&space;t^{4}}{4}&space;\sigma_{ay}^{2}&space;&&space;0&space;&&space;\frac{\Delta&space;t^{3}}{2}&space;\sigma_{ay}^{2}&space;\\&space;\frac{\Delta&space;t^{3}}{2}&space;\sigma_{ax}^{2}&space;&&space;0&space;&&space;\Delta&space;t^{2}&space;\sigma_{ax}^{2}&space;&&space;0&space;\\&space;0&space;&&space;\frac{\Delta&space;t^{3}}{2}&space;\sigma_{ay}^{2}&space;&&space;0&space;&&space;\Delta&space;t^{2}&space;\sigma_{ay}^{2}&space;\end{pmatrix}(9)$$." title="$$ Q = \begin{pmatrix} \frac{\Delta t^{4}}{4} \sigma_{ax}^{2} & 0 & \frac{\Delta t^{3}}{2} \sigma_{ax}^{2} & 0 \\ 0 & \frac{\Delta t^{4}}{4} \sigma_{ay}^{2} & 0 & \frac{\Delta t^{3}}{2} \sigma_{ay}^{2} \\ \frac{\Delta t^{3}}{2} \sigma_{ax}^{2} & 0 & \Delta t^{2} \sigma_{ax}^{2} & 0 \\ 0 & \frac{\Delta t^{3}}{2} \sigma_{ay}^{2} & 0 & \Delta t^{2} \sigma_{ay}^{2} \end{pmatrix}(9)$$." /></a>
 
-In both $ F $ and $ Q $ $ \Delta t $ corresponds to the time difference in seconds between the current and last measurement.
+In both <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;F&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;F&space;$$" title="$$ F $$" /></a> and <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;Q&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;Q&space;$$" title="$$ Q $$" /></a>, <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;\Delta&space;t&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;\Delta&space;t&space;$$" title="$$ \Delta t $$" /></a> corresponds to the time difference in seconds between the current and last measurement.
 
 #### Update phase
 
-In this phase, the measurement from radar or laser is used in order to update the measurement mean vector x and measurement covariance matrix P. 
+In this phase, the measurement from radar or laser is used in order to update the measurement mean vector <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;x&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;x&space;$$" title="$$ x $$" /></a> and measurement covariance matrix <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;P&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;P&space;$$" title="$$ P $$" /></a>. 
 
 For that, the following equations are used:
 
-$$ x_{upd} = x_{pred} + K y (10)$$
-$$ P_{upd} = (I - K H)P_{pred} (11)$$ 
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$&space;x_{upd}&space;=&space;x_{pred}&space;&plus;&space;K&space;y&space;(10)$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$&space;x_{upd}&space;=&space;x_{pred}&space;&plus;&space;K&space;y&space;(10)$$" title="$$ x_{upd} = x_{pred} + K y (10)$$" /></a>
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$&space;P_{upd}&space;=&space;(I&space;-&space;K&space;H)P_{pred}&space;(11)$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$&space;P_{upd}&space;=&space;(I&space;-&space;K&space;H)P_{pred}&space;(11)$$" title="$$ P_{upd} = (I - K H)P_{pred} (11)$$" /></a>
 
 Where:
 
-y: Difference between predicted observable variables and estimated observable variables.
-K: Kalman gain.
-H: Observation matrix.
+- <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;y&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;y&space;$$" title="$$ y $$" /></a>: Difference between predicted observable variables and estimated observable variables.
+- <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;K&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;K&space;$$" title="$$ K $$" /></a>: Kalman gain.
+- <a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;H&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;H&space;$$" title="$$ H $$" /></a>: Observation matrix.
 
-y is calculated as:
+<a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;y&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;y&space;$$" title="$$ y $$" /></a> is calculated as:
 
-$$ y = z - H x_{pred}(12)$$
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$&space;y&space;=&space;z&space;-&space;H&space;x_{pred}(12)$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$&space;y&space;=&space;z&space;-&space;H&space;x_{pred}(12)$$" title="$$ y = z - H x_{pred}(12)$$" /></a>
 
-z corresponds to the input from the sensor which is (position x, position y) in the case of laser and (position module, position angle, speed module) in the case of radar.
+<a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;z&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;z&space;$$" title="$$ z $$" /></a> corresponds to the input from the sensor which is (position x, position y) in the case of laser and (position module, position angle, speed module) in the case of radar.
 
-H is the matrix which transforms x with all observable and not observable values to only the observable values.
+<a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;H&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;H&space;$$" title="$$ H $$" /></a> is the matrix which transforms the vector x with all observable and not observable values to a vector with only the observable values.
 
-K can be calculated using the following equations:
+<a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;K&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;K&space;$$" title="$$ K $$" /></a> can be calculated using the following equations:
 
-$$ K = P_{pred} H^{T} S^{-1}(13)$$
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$&space;K&space;=&space;P_{pred}&space;H^{T}&space;S^{-1}(13)$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$&space;K&space;=&space;P_{pred}&space;H^{T}&space;S^{-1}(13)$$" title="$$ K = P_{pred} H^{T} S^{-1}(13)$$" /></a>
 
-$$ S = H P_{pred} H_{T} + R (14)$$
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$&space;S&space;=&space;H&space;P_{pred}&space;H_{T}&space;&plus;&space;R&space;(14)$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$&space;S&space;=&space;H&space;P_{pred}&space;H_{T}&space;&plus;&space;R&space;(14)$$" title="$$ S = H P_{pred} H_{T} + R (14)$$" /></a>
 
-R is the measurement covariance matrix and is of dimensions 2x2 for laser measurements and 3x3 for radar measurements.
+<a href="https://www.codecogs.com/eqnedit.php?latex=\inline&space;$$&space;R&space;$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\inline&space;$$&space;R&space;$$" title="$$ R $$" /></a> is the measurement covariance matrix and is of dimensions 2x2 for laser measurements and 3x3 for radar measurements.
 
 #### Extended Kalman filter
 
 The Kalman filter works directly only with laser measurements, since a laser measures the position x and y directly. The radar instead measures the distance to the object from the radar, the angle respective to the radar and the speed of the object. In the equation (12) there is no H matrix which can convert the predicted values from cartesian coordinates to polar coordinates. Instead, a non linear function needs to be used. This function is defined as:
 
-$$ h(x_{pred}) = \begin{pmatrix} 
-\sqrt{p_{x}^{2}+p_{y}^{2}}\\
-arctan(p_{y}/p_{x}) \\
-\frac{p_{x}v_{x} + p_{y}v_{y}}{\sqrt{p_{x}^{2}+p_{y}^{2}}}
-\end{pmatrix} (15)$$
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$&space;h(x_{pred})&space;=&space;\begin{pmatrix}&space;\sqrt{p_{x}^{2}&plus;p_{y}^{2}}\\&space;arctan(p_{y}/p_{x})&space;\\&space;\frac{p_{x}v_{x}&space;&plus;&space;p_{y}v_{y}}{\sqrt{p_{x}^{2}&plus;p_{y}^{2}}}&space;\end{pmatrix}&space;(15)$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$&space;h(x_{pred})&space;=&space;\begin{pmatrix}&space;\sqrt{p_{x}^{2}&plus;p_{y}^{2}}\\&space;arctan(p_{y}/p_{x})&space;\\&space;\frac{p_{x}v_{x}&space;&plus;&space;p_{y}v_{y}}{\sqrt{p_{x}^{2}&plus;p_{y}^{2}}}&space;\end{pmatrix}&space;(15)$$" title="$$ h(x_{pred}) = \begin{pmatrix} \sqrt{p_{x}^{2}+p_{y}^{2}}\\ arctan(p_{y}/p_{x}) \\ \frac{p_{x}v_{x} + p_{y}v_{y}}{\sqrt{p_{x}^{2}+p_{y}^{2}}} \end{pmatrix} (15)$$" /></a>
 
 For the equations (13) and (14) the Jacobian matrix of the h function is used. This matrix corresponds to:
 
-$$ H_{j} = \begin{pmatrix}
-\frac{p_{x}}{\sqrt{p_{x}^{2}+p_{y}^{2}}} & \frac{p_{y}}{\sqrt{p_{y}^{2}+p_{y}^{2}}} & 0 & 0 \\
-- \frac{p_{y}}{p_{x}^{2}+p_{y}^{2}} & \frac{p_{x}}{p_{x}^{2}+p_{y}^{2}}  & 0 & 0 \\
-\frac{p_{y}(v_{x}p_{y}- v_{y}p_{x})}{(p_{x}^{2}+p_{y}^{2})^{3/2}} & \frac{p_{x}(v_{y}p_{x}- v_{x}p_{y})}{(p_{x}^{2}+p_{y}^{2})^{3/2}} & \frac{p_{x}}{\sqrt{p_{x}^{2}+p_{y}^{2}}} & \frac{p_{y}}{\sqrt{p_{y}^{2}+p_{y}^{2}}} 
-\end{pmatrix}(16)$$
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$&space;H_{j}&space;=&space;\begin{pmatrix}&space;\frac{p_{x}}{\sqrt{p_{x}^{2}&plus;p_{y}^{2}}}&space;&&space;\frac{p_{y}}{\sqrt{p_{y}^{2}&plus;p_{y}^{2}}}&space;&&space;0&space;&&space;0&space;\\&space;-&space;\frac{p_{y}}{p_{x}^{2}&plus;p_{y}^{2}}&space;&&space;\frac{p_{x}}{p_{x}^{2}&plus;p_{y}^{2}}&space;&&space;0&space;&&space;0&space;\\&space;\frac{p_{y}(v_{x}p_{y}-&space;v_{y}p_{x})}{(p_{x}^{2}&plus;p_{y}^{2})^{3/2}}&space;&&space;\frac{p_{x}(v_{y}p_{x}-&space;v_{x}p_{y})}{(p_{x}^{2}&plus;p_{y}^{2})^{3/2}}&space;&&space;\frac{p_{x}}{\sqrt{p_{x}^{2}&plus;p_{y}^{2}}}&space;&&space;\frac{p_{y}}{\sqrt{p_{y}^{2}&plus;p_{y}^{2}}}&space;\end{pmatrix}(16)$$" target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$&space;H_{j}&space;=&space;\begin{pmatrix}&space;\frac{p_{x}}{\sqrt{p_{x}^{2}&plus;p_{y}^{2}}}&space;&&space;\frac{p_{y}}{\sqrt{p_{y}^{2}&plus;p_{y}^{2}}}&space;&&space;0&space;&&space;0&space;\\&space;-&space;\frac{p_{y}}{p_{x}^{2}&plus;p_{y}^{2}}&space;&&space;\frac{p_{x}}{p_{x}^{2}&plus;p_{y}^{2}}&space;&&space;0&space;&&space;0&space;\\&space;\frac{p_{y}(v_{x}p_{y}-&space;v_{y}p_{x})}{(p_{x}^{2}&plus;p_{y}^{2})^{3/2}}&space;&&space;\frac{p_{x}(v_{y}p_{x}-&space;v_{x}p_{y})}{(p_{x}^{2}&plus;p_{y}^{2})^{3/2}}&space;&&space;\frac{p_{x}}{\sqrt{p_{x}^{2}&plus;p_{y}^{2}}}&space;&&space;\frac{p_{y}}{\sqrt{p_{y}^{2}&plus;p_{y}^{2}}}&space;\end{pmatrix}(16)$$" title="$$ H_{j} = \begin{pmatrix} \frac{p_{x}}{\sqrt{p_{x}^{2}+p_{y}^{2}}} & \frac{p_{y}}{\sqrt{p_{y}^{2}+p_{y}^{2}}} & 0 & 0 \\ - \frac{p_{y}}{p_{x}^{2}+p_{y}^{2}} & \frac{p_{x}}{p_{x}^{2}+p_{y}^{2}} & 0 & 0 \\ \frac{p_{y}(v_{x}p_{y}- v_{y}p_{x})}{(p_{x}^{2}+p_{y}^{2})^{3/2}} & \frac{p_{x}(v_{y}p_{x}- v_{x}p_{y})}{(p_{x}^{2}+p_{y}^{2})^{3/2}} & \frac{p_{x}}{\sqrt{p_{x}^{2}+p_{y}^{2}}} & \frac{p_{y}}{\sqrt{p_{y}^{2}+p_{y}^{2}}} \end{pmatrix}(16)$$" /></a>
 
 For the prediction phase the equations used on this project are the same for radar and laser measurements.
 
