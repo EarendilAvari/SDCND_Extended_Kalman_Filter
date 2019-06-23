@@ -144,3 +144,9 @@ The software is already compiled in this repository in the folder "build", but h
 - Open the term 2 simulator and select Project 1/2: EKF and UKF.
 - Press start and see how the car moves and the measurements and estimations are shown.
 
+These steps are for a linux environment. For other operative systems see the [Udacity's repository](https://github.com/udacity/CarND-Extended-Kalman-Filter-Project).
+
+
+
+
+
