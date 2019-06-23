@@ -6,7 +6,7 @@ This project consists of a sensor fusion system with radar and laser which measu
 
 This software is programmed in C++ 11 using the standard template library and the external library Eigen for linear algebra calculations. 
 
-The software was debugged using 500 radar and laser measurements saved in a csv file. 
+The software was debugged using 500 radar and laser measurements saved in a txt file. 
 
 In order to visualize the results of the software, the [ Udacity term 2 simulator ](https://github.com/udacity/self-driving-car-sim) is used. To communicate this software with the simulator the [uWebSockets API](https://github.com/uNetworking/uWebSockets) is used. 
 
